@@ -4,7 +4,7 @@ import cors from 'cors';
 import pino from 'pino-http';
 
 const app = express();
-const PORT = process.env.PORT ?? 3000; // or ||
+const PORT = process.env.PORT ?? 3030; // or ||
 
 app.use(express.json());
 app.use(cors());
@@ -34,7 +34,7 @@ app.get('/notes', (req, res) => {
 app.get('/notes/:noteId', (req, res) => {
   const { noteId } = req.params;
   res.status(200).json({
-    id: noteId,
+    // id: noteId,
     message: `Retrieved note with ID: ${noteId}`,
   });
 });
@@ -51,10 +51,10 @@ app.use((req, res) => {
 
 // помилки
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
+  // console.error('Error:', err.message);
   res.status(500).json({
-    message: 'I simulated a server error.',
-    error: err.message,
+    message: 'Simulated server error.',
+    // error: err.message,
   });
 });
 
