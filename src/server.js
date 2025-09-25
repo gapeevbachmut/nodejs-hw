@@ -51,10 +51,10 @@ app.use((req, res) => {
 
 // помилки
 app.use((err, req, res, next) => {
-  // console.error('Error:', err.message);
+  console.error('Error:', err.message);
   res.status(500).json({
-    message: 'Simulated server error.',
-    // error: err.message,
+    // message: 'Simulated server error.',
+    error: err.message,
   });
 });
 
