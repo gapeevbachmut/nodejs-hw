@@ -11,17 +11,12 @@ const app = express();
 
 const PORT = process.env.PORT ?? 3030;
 
-app.use(express.json());
-app.use(cors());
-app.use(logger);
+app.use(logger); // бачить усі запити
 
-// група маршрутів - all notes та за id
-app.use(notesRoutes);
+app.use(express.json()); //обробка JSON запитів
+app.use(cors()); // дозвіл запитів з інших доменів
 
-// тест помилки
-app.get('/test-error', () => {
-  throw new Error('Simulated server error');
-});
+app.use(notesRoutes); // група маршрутів
 
 app.use(notFoundHandler); // 404
 app.use(errorHandler); // error
