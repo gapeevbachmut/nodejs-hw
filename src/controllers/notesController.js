@@ -34,8 +34,9 @@ export const deleteNote = async (req, res, next) => {
   if (!note) {
     next(createHttpError(404, 'Note not found'));
     return;
+    // throw createHttpError(404, 'Note not found');
   }
-  res.status(200).send(note);
+  res.status(200).json(note);
 };
 
 //редагування
@@ -47,7 +48,9 @@ export const updateNote = async (req, res, next) => {
     { new: true }, //show update
   );
   if (!note) {
-    next(createHttpError, 'Note not found');
+    next(createHttpError(404, 'Note not found'));
+    return;
+    // throw createHttpError(404, 'Note not found');
   }
   res.status(200).json(note);
 };
