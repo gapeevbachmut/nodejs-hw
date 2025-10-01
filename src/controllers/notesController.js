@@ -20,11 +20,6 @@ export const getNoteById = async (req, res, next) => {
   res.status(200).json(note);
 };
 
-// test error
-export const testError = () => {
-  throw new Error('Simulated server error');
-};
-
 //  створення нотатки
 export const createNote = async (req, res) => {
   const note = await Note.create(req.body);
@@ -34,9 +29,7 @@ export const createNote = async (req, res) => {
 // видалення
 export const deleteNote = async (req, res, next) => {
   const { noteId } = req.params;
-  const note = await Note.findByIdAndDelete({
-    _id: noteId,
-  });
+  const note = await Note.findByIdAndDelete(noteId);
 
   if (!note) {
     next(createHttpError(404, 'Note not found'));
