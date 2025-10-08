@@ -8,7 +8,7 @@ export const connectMongoDB = async () => {
     await mongoose.connect(mongoUrl);
     console.log('✅  MongoDB connection established successfully');
 
-    await Note.syncIndexes();
+    await Note.syncIndexes(); // для пошуку - search
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     process.exit(1); // зупинити сервер

@@ -1,4 +1,5 @@
 import { HttpError } from 'http-errors';
+import 'dotenv/config';
 
 export const errorHandler = (error, req, res, next) => {
   // Якщо помилка створена через http-errors
@@ -8,10 +9,12 @@ export const errorHandler = (error, req, res, next) => {
     });
   }
 
+  const isProd = process.env.NODE_ENV === 'production';
+
   // Усі інші помилки — як внутрішні
 
-  console.error(error.message);
+  console.error(error);
   res.status(500).json({
-    message: error.message,
+    message: isProd ? 'Something went wrong!' : error.message,
   });
 };

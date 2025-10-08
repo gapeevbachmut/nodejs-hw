@@ -1,5 +1,5 @@
 import { Joi, Segments } from 'celebrate';
-import { TAGS } from '../constans/tags.js';
+import { TAGS } from '../constants/tags.js';
 import { isValidObjectId } from 'mongoose';
 
 // Кастомний валідатор для ObjectId
@@ -13,6 +13,8 @@ export const getAllNotesSchema = {
     perPage: Joi.number().integer().min(5).max(20).default(10),
     tag: Joi.string().valid(...TAGS),
     search: Joi.string().trim().allow(''),
+    sortBy: Joi.string().valid('_id', 'title', 'tag').default('title'),
+    sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
   }),
 };
 
@@ -24,11 +26,22 @@ export const noteIdSchema = {
 
 export const createNoteSchema = {
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).required(),
-    content: Joi.string().allow(''),
+    title: Joi.string().trim().min(1).required().messages({
+      'string.base': 'Title must be a string',
+      'string.min': 'Title should have at least {#limit} characters',
+      'any.required': 'Title is required',
+    }),
+    content: Joi.string().trim().allow('').messages({
+      'string.base': 'Content must be a string',
+    }),
     tag: Joi.string()
       .valid(...TAGS)
-      .required(),
+      .required()
+      .messages({
+        'any.only':
+          'Tag must be one of: Work,  Personal,  Meeting,  Shopping,  Ideas,  Travel,  Finance,  Health,  Important, Todo',
+        'any.required': 'Tag is required',
+      }),
   }),
 };
 
@@ -37,10 +50,18 @@ export const updateNoteSchema = {
     noteId: Joi.string().custom(objectIdValidator).required(),
   }),
   [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).required(),
-    content: Joi.string().allow(''),
+    title: Joi.string().trim().min(1).messages({
+      'string.base': 'Title must be a string',
+      'string.min': 'Title should have at least {#limit} characters',
+    }),
+    content: Joi.string().trim().allow('').messages({
+      'string.base': 'Content must be a string',
+    }),
     tag: Joi.string()
       .valid(...TAGS)
-      .required(),
+      .messages({
+        'any.only':
+          'Tag must be one of: Work,  Personal,  Meeting,  Shopping,  Ideas,  Travel,  Finance,  Health,  Important, Todo',
+      }),
   }).min(1), // важливо: не дозволяємо порожнє тіло
 };

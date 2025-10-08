@@ -3,17 +3,19 @@ import createHttpError from 'http-errors';
 
 // Отримати список усіх нотаток
 export const getAllNotes = async (req, res) => {
-  const { page = 1, perPage = 10, tag, search } = req.query;
+  const { page = 1, perPage = 10, tag, search, sortBy, sortOrder } = req.query;
 
   const skip = (page - 1) * perPage;
 
   const notesQuery = Note.find();
 
-  if (search) {
-    notesQuery.where({ $text: { $search: search } });
+  if (search && search.trim() !== '') {
+    // швидше - повне слово
+    notesQuery.where({ $text: { $search: search.trim() } });
   }
 
   // if (search && search.trim() !== '') {
+  // // довше - підрядок
   //   const regex = new RegExp(search, 'i');
   //   notesQuery.or([{ title: regex }, { content: regex }]);
   // }
@@ -24,7 +26,10 @@ export const getAllNotes = async (req, res) => {
 
   const [totalItems, notes] = await Promise.all([
     notesQuery.clone().countDocuments(),
-    notesQuery.skip(skip).limit(perPage),
+    notesQuery
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder }),
   ]);
 
   const totalPages = Math.ceil(totalItems / perPage);
