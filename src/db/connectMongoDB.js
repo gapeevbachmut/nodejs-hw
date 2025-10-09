@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Note } from '../models/note.js';
+// import { Note } from '../models/note.js';
 
 export const connectMongoDB = async () => {
   try {
@@ -8,7 +8,7 @@ export const connectMongoDB = async () => {
     await mongoose.connect(mongoUrl);
     console.log('✅  MongoDB connection established successfully');
 
-    await Note.syncIndexes(); // для пошуку - search
+    // await Note.syncIndexes(); // для пошуку - search у контроллері + модель
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     process.exit(1); // зупинити сервер
