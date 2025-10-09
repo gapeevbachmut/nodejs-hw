@@ -34,6 +34,6 @@ const noteSchema = new Schema(
 //     weights: { title: 10, content: 5 },
 //     default_language: 'english',
 //   },
-);
+// );
 
 export const Note = model('Note', noteSchema);
