@@ -9,16 +9,16 @@ export const getAllNotes = async (req, res) => {
 
   const notesQuery = Note.find();
 
-  // if (search && search.trim() !== '') {
-  //   // швидше - повне слово
-  //   notesQuery.where({ $text: { $search: search.trim() } });
-  // }
-
   if (search && search.trim() !== '') {
-    // довше - підрядок
-    const regex = new RegExp(search, 'i');
-    notesQuery.or([{ title: regex }, { content: regex }]);
+    // швидше - повне слово
+    notesQuery.where({ $text: { $search: search.trim() } });
   }
+
+  // if (search && search.trim() !== '') {
+  //   // довше - підрядок
+  //   const regex = new RegExp(search, 'i');
+  //   notesQuery.or([{ title: regex }, { content: regex }]);
+  // }
 
   if (tag) {
     notesQuery.where('tag').equals(tag);

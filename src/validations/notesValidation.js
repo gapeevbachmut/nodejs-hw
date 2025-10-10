@@ -36,7 +36,6 @@ export const createNoteSchema = {
     }),
     tag: Joi.string()
       .valid(...TAGS)
-      .required()
       .messages({
         'any.only':
           'Tag must be one of: Work,  Personal,  Meeting,  Shopping,  Ideas,  Travel,  Finance,  Health,  Important, Todo',
