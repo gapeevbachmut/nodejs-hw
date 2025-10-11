@@ -39,7 +39,6 @@ export const createNoteSchema = {
       .messages({
         'any.only':
           'Tag must be one of: Work,  Personal,  Meeting,  Shopping,  Ideas,  Travel,  Finance,  Health,  Important, Todo',
-        'any.required': 'Tag is required',
       }),
   }),
 };
