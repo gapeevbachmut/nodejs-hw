@@ -20,6 +20,12 @@ const noteSchema = new Schema(
       default: 'Todo',
       enum: TAGS,
     },
+    //  додам userId - щоб прив'язати юзера та запис
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: true,

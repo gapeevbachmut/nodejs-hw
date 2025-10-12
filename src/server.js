@@ -8,6 +8,8 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRoutes from './routes/notesRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -17,8 +19,10 @@ app.use(logger); // бачить усі запити
 
 app.use(express.json()); //обробка JSON запитів
 app.use(cors()); // дозвіл запитів з інших доменів
+app.use(cookieParser());
 
-app.use(notesRoutes); // група маршрутів
+app.use(authRoutes); // група маршрутів аутентифікації
+app.use(notesRoutes); // група маршрутів нотаток
 
 app.use(notFoundHandler); // 404
 app.use(errors()); // обробка помилок від celebrate (валідація)

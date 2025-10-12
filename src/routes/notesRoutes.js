@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { celebrate } from 'celebrate';
 import {
   getAllNotes,
   getNoteById,
@@ -12,9 +13,11 @@ import {
   createNoteSchema,
   updateNoteSchema,
 } from '../validations/notesValidation.js';
-import { celebrate } from 'celebrate';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
+
+router.use('/notes', authenticate); //  додаю автентифікацію до всіх маршрутів /notes
 
 router.get('/notes', celebrate(getAllNotesSchema), getAllNotes); // all notes
 router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById); // note by id
