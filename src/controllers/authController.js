@@ -64,11 +64,11 @@ export const loginUser = async (req, res, next) => {
 // логаут
 export const logoutUser = async (req, res) => {
   // отримую ідентифікатор сесії із куків
-  const { SessionId } = req.cookies;
+  const { sessionId } = req.cookies;
 
   // якщо сесія є - видаляємоїї із бази діних
-  if (SessionId) {
-    await Session.deleteOne({ _id: SessionId });
+  if (sessionId) {
+    await Session.deleteOne({ _id: sessionId });
   }
 
   // та видаляємо усі куки
