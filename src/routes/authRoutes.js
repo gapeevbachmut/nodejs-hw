@@ -23,13 +23,13 @@ router.post('/auth/logout', logoutUser);
 router.post('/auth/refresh', refreshUserSession);
 
 router.post(
-  //надсилання листа
+  //надсилання листа для скидання паролю
   '/auth/request-reset-email',
   celebrate(requestResetEmailSchema),
   requestResetEmail,
 );
 router.post(
-  //зміна паролю
+  //  Скидання паролю
   '/auth/reset-password',
   celebrate(resetPasswordSchema),
   resetPassword,
