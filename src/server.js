@@ -9,6 +9,7 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use(authRoutes); // група маршрутів аутентифікації
 app.use(notesRoutes); // група маршрутів нотаток
+app.use(userRoutes); // роути користувача
 
 app.use(notFoundHandler); // 404
 app.use(errors()); // обробка помилок від celebrate (валідація)
