@@ -128,13 +128,17 @@ export const requestResetEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-
-  // Якщо користувача нема — навмисно повертаю "успішну" відповідь
+  //  для ДЗ - за її умовами
   if (!user) {
-    return res.status(200).json({
-      message: 'If this email exists, a reset link has been sent',
-    });
+    return res.status(404).json({ message: 'User not found' });
   }
+
+  // // Якщо користувача нема — навмисно повертаю "успішну" відповідь
+  // if (!user) {
+  //   return res.status(200).json({
+  //     message: 'If this email exists, a reset link has been sent',
+  //   });
+  // }
 
   // Користувач є — генерую короткоживучий JWT і відправляю лист
   const resetToken = jwt.sign(
@@ -172,8 +176,8 @@ export const requestResetEmail = async (req, res, next) => {
 
   //  "успішна" відповідь
   res.status(200).json({
-    message: 'If this email exists, a reset link has been sent',
-    // message: 'Password reset email sent successfully',
+    // message: 'If this email exists, a reset link has been sent',
+    message: 'Password reset email sent successfully', // для ДЗ
   });
 };
 
