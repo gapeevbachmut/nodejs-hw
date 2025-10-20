@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { Session } from '../models/session.js';
 import { createSession, setSessionCookies } from '../services/auth.js';
 import jwt from 'jsonwebtoken';
-import { sendMail } from '../utils/sendMail.js';
+import { sendEmail } from '../utils/sendEmail.js';
 import handlebars from 'handlebars';
 import path from 'node:path';
 import fs from 'node:fs/promises';
@@ -130,14 +130,14 @@ export const requestResetEmail = async (req, res, next) => {
   const user = await User.findOne({ email });
   //  для ДЗ - за її умовами
   if (!user) {
-    return res.status(404).json({ message: 'User not found' });
+    return next(createHttpError(404, 'User not found'));
   }
 
   // // Якщо користувача нема — навмисно повертаю "успішну" відповідь
   // if (!user) {
-  //   return res.status(200).json({
-  //     message: 'If this email exists, a reset link has been sent',
-  //   });
+  //   return next(
+  //     createHttpError(200, 'If this email exists, a reset link has been sent'),
+  //   );
   // }
 
   // Користувач є — генерую короткоживучий JWT і відправляю лист
@@ -161,7 +161,7 @@ export const requestResetEmail = async (req, res, next) => {
   });
 
   try {
-    await sendMail({
+    await sendEmail({
       from: process.env.SMTP_FROM,
       to: email,
       subject: 'Reset your password',
